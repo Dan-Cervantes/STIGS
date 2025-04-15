@@ -1,0 +1,43 @@
+<#
+.SYNOPSIS
+    This PowerShell script ensures that the maximum size of the Windows Application event log is at least 32768 KB (32 MB).
+
+.NOTES
+    Author          : Daniel Cervantes
+    LinkedIn        : https://www.linkedin.com/in/daniel-cervantes422/
+    GitHub          : github.com/Dan-Cervantes
+    Date Created    : 2025-04-15
+    Last Modified   : 2025-04-15
+    Version         : 1.0
+    CVEs            : N/A
+    Plugin IDs      : N/A
+    STIG-ID         : WN10-AU-000035
+
+.TESTED ON
+    Date(s) Tested  : 
+    Tested By       : 
+    Systems Tested  : 
+    PowerShell Ver. : 
+
+.USAGE
+    Put any usage instructions here.
+    Example syntax:
+    PS C:\> .\Enable-UserAccountAuditFailure.ps1
+#>
+
+# PowerShell script to audit User Account Management failures
+
+# Check current audit setting
+$currentSetting = auditpol /get /subcategory:"User Account Management"
+
+Write-Host "`nCurrent setting for 'User Account Management':"
+Write-Host $currentSetting
+
+# Enable Failure auditing for User Account Management
+auditpol /set /subcategory:"User Account Management" /failure:enable
+
+# Confirm updated setting
+$updatedSetting = auditpol /get /subcategory:"User Account Management"
+
+Write-Host "`nUpdated setting for 'User Account Management':"
+Write-Host $updatedSetting
