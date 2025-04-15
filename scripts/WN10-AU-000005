@@ -1,0 +1,35 @@
+<#
+.SYNOPSIS
+    This PowerShell script enables auditing of Credential Validation failures.
+
+.NOTES
+    Author          : Daniel Cervantes
+    LinkedIn        : https://www.linkedin.com/in/daniel-cervantes422/
+    GitHub          : github.com/Dan-Cervantes
+    Date Created    : 2025-04-15
+    Last Modified   : 2025-04-15
+    Version         : 1.0
+    CVEs            : N/A
+    Plugin IDs      : N/A
+    STIG-ID         : WN10-AU-000005
+
+.TESTED ON
+    Date(s) Tested  : 
+    Tested By       : 
+    Systems Tested  : 
+    PowerShell Ver. : 
+
+.USAGE
+    Put any usage instructions here.
+    Example syntax:
+    PS C:\> .\Set-CredentialValidationAudit.ps1
+#>
+
+# PowerShell script to enable auditing of Credential Validation failures
+
+# Enable 'Failure' auditing for Credential Validation
+auditpol /set /subcategory:"Credential Validation" /failure:enable
+
+# Display current setting to confirm
+Write-Host "`nCurrent Credential Validation audit policy:"
+auditpol /get /subcategory:"Credential Validation"
