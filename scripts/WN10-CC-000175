@@ -1,0 +1,44 @@
+<#
+.SYNOPSIS
+    This PowerShell script turns off the Inventory Collector.
+
+.NOTES
+    Author          : Daniel Cervantes
+    LinkedIn        : https://www.linkedin.com/in/daniel-cervantes422/
+    GitHub          : github.com/Dan-Cervantes
+    Date Created    : 2025-04-15
+    Last Modified   : 2025-04-15
+    Version         : 1.0
+    CVEs            : N/A
+    Plugin IDs      : N/A
+    STIG-ID         : WN10-CC-000175
+
+.TESTED ON
+    Date(s) Tested  : 
+    Tested By       : 
+    Systems Tested  : 
+    PowerShell Ver. : 
+
+.USAGE
+    Put any usage instructions here.
+    Example syntax:
+    PS C:\> .\Disable-InventoryCollector.ps1
+#>
+
+# PowerShell script to turn off the Inventory Collector (App Compatibility telemetry)
+
+$regPath = "HKLM:\Software\Policies\Microsoft\Windows\AppCompat"
+$regName = "DisableInventory"
+$desiredValue = 1
+
+# Create registry path if it doesn't exist
+if (-not (Test-Path $regPath)) {
+    New-Item -Path $regPath -Force | Out-Null
+}
+
+# Set the registry value to disable Inventory Collector
+Set-ItemProperty -Path $regPath -Name $regName -Value $desiredValue -Type DWord
+
+# Confirm setting
+$currentValue = Get-ItemProperty -Path $regPath -Name $regName
+Write-Host "'Turn off Inventory Collector' set to: $($currentValue.$regName) (1 = Enabled/Disabled Inventory Collection)"
