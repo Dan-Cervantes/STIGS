@@ -1,0 +1,44 @@
+<#
+.SYNOPSIS
+    This PowerShell script sets the telemetry level to Basic or Security for compliance.
+
+.NOTES
+    Author          : Daniel Cervantes
+    LinkedIn        : https://www.linkedin.com/in/daniel-cervantes422/
+    GitHub          : github.com/Dan-Cervantes
+    Date Created    : 2025-04-15
+    Last Modified   : 2025-04-15
+    Version         : 1.0
+    CVEs            : N/A
+    Plugin IDs      : N/A
+    STIG-ID         : WN10-CC-000205
+
+.TESTED ON
+    Date(s) Tested  : 
+    Tested By       : 
+    Systems Tested  : 
+    PowerShell Ver. : 
+
+.USAGE
+    Put any usage instructions here.
+    Example syntax:
+    PS C:\> .\Set-TelemetryLevel.ps1
+#>
+
+# PowerShell script to set telemetry level to 'Basic' (1) or 'Security' (0) for compliance
+
+$regPath = "HKLM:\Software\Policies\Microsoft\Windows\DataCollection"
+$regName = "AllowTelemetry"
+$desiredValue = 1  # Change to 0 if you're using Enterprise and want strictest setting
+
+# Create the registry path if it doesn't exist
+if (-not (Test-Path $regPath)) {
+    New-Item -Path $regPath -Force | Out-Null
+}
+
+# Set AllowTelemetry to the desired value
+Set-ItemProperty -Path $regPath -Name $regName -Value $desiredValue -Type DWord
+
+# Confirm the setting
+$currentValue = Get-ItemProperty -Path $regPath -Name $regName
+Write-Host "'Allow Telemetry' is now set to: $($currentValue.$regName)"
